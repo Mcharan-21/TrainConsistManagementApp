@@ -8,6 +8,18 @@ public class TrainConsistManagementApp {
 
         List<String> bogies = new ArrayList<>();
 
-        System.out.println("Train initialized successfully.");
+        bogies.add("Sleeper");
+        bogies.add("AC Chair");
+        bogies.add("First Class");
+
+        System.out.println("Bogies after adding: " + bogies);
+
+        bogies.remove("AC Chair");
+
+        if (bogies.contains("Sleeper")) {
+            System.out.println("Sleeper bogie exists in the train.");
+        }
+
+        System.out.println("Final Bogie List: " + bogies);
     }
 }
