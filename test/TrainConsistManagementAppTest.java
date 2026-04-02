@@ -5,18 +5,33 @@ import java.util.*;
 public class TrainConsistManagementAppTest {
 
     @Test
-    void testTotalCapacity() {
+    void testSafetyCompliant() {
 
-        List<Bogie> bogies = new ArrayList<>();
+        List<GoodsBogie> bogies = new ArrayList<>();
+        bogies.add(new GoodsBogie("Cylindrical", "Petroleum"));
+        bogies.add(new GoodsBogie("Box", "Grain"));
 
-        bogies.add(new Bogie("Sleeper", 72));
-        bogies.add(new Bogie("AC Chair", 60));
-        bogies.add(new Bogie("First Class", 24));
+        boolean result = bogies.stream()
+                .allMatch(b ->
+                        !b.type.equals("Cylindrical") ||
+                                b.cargo.equals("Petroleum")
+                );
 
-        int totalCapacity = bogies.stream()
-                .map(b -> b.capacity)
-                .reduce(0, Integer::sum);
+        assertTrue(result);
+    }
 
-        assertEquals(156, totalCapacity);
+    @Test
+    void testNotSafe() {
+
+        List<GoodsBogie> bogies = new ArrayList<>();
+        bogies.add(new GoodsBogie("Cylindrical", "Grain")); // invalid
+
+        boolean result = bogies.stream()
+                .allMatch(b ->
+                        !b.type.equals("Cylindrical") ||
+                                b.cargo.equals("Petroleum")
+                );
+
+        assertFalse(result);
     }
 }
