@@ -1,38 +1,44 @@
 import java.util.*;
-
-class GoodsBogie {
-    String type;
-    String cargo;
-
-    GoodsBogie(String type, String cargo) {
-        this.type = type;
-        this.cargo = cargo;
-    }
-}
+import java.util.regex.*;
 
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        System.out.println("=== Train Safety Compliance Check ===");
+        System.out.println("=== Train Consist Management App ===");
 
-        List<GoodsBogie> bogies = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
 
-        bogies.add(new GoodsBogie("Cylindrical", "Petroleum"));
-        bogies.add(new GoodsBogie("Box", "Grain"));
-        bogies.add(new GoodsBogie("Flat", "Vehicles"));
+        // Input
+        System.out.print("Enter Train ID: ");
+        String trainId = sc.nextLine();
 
-        // allMatch safety check
-        boolean isSafe = bogies.stream()
-                .allMatch(b ->
-                        !b.type.equals("Cylindrical") ||
-                                b.cargo.equals("Petroleum")
-                );
+        System.out.print("Enter Cargo Code: ");
+        String cargoCode = sc.nextLine();
 
-        if (isSafe) {
-            System.out.println("Train is SAFETY COMPLIANT ✅");
+        // Regex patterns
+        String trainPattern = "TRN-\\d{4}";
+        String cargoPattern = "PET-[A-Z]{2}";
+
+        // Compile patterns
+        Pattern p1 = Pattern.compile(trainPattern);
+        Pattern p2 = Pattern.compile(cargoPattern);
+
+        // Match inputs
+        Matcher m1 = p1.matcher(trainId);
+        Matcher m2 = p2.matcher(cargoCode);
+
+        // Validate
+        if (m1.matches()) {
+            System.out.println("Valid Train ID");
         } else {
-            System.out.println("Train is NOT SAFE ❌");
+            System.out.println("Invalid Train ID");
+        }
+
+        if (m2.matches()) {
+            System.out.println("Valid Cargo Code");
+        } else {
+            System.out.println("Invalid Cargo Code");
         }
     }
 }

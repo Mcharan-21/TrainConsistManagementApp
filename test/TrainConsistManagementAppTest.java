@@ -1,37 +1,32 @@
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.*;
+import java.util.regex.*;
 
 public class TrainConsistManagementAppTest {
 
     @Test
-    void testSafetyCompliant() {
+    void testValidInputs() {
 
-        List<GoodsBogie> bogies = new ArrayList<>();
-        bogies.add(new GoodsBogie("Cylindrical", "Petroleum"));
-        bogies.add(new GoodsBogie("Box", "Grain"));
+        String trainId = "TRN-1234";
+        String cargoCode = "PET-AB";
 
-        boolean result = bogies.stream()
-                .allMatch(b ->
-                        !b.type.equals("Cylindrical") ||
-                                b.cargo.equals("Petroleum")
-                );
+        Pattern p1 = Pattern.compile("TRN-\\d{4}");
+        Pattern p2 = Pattern.compile("PET-[A-Z]{2}");
 
-        assertTrue(result);
+        assertTrue(p1.matcher(trainId).matches());
+        assertTrue(p2.matcher(cargoCode).matches());
     }
 
     @Test
-    void testNotSafe() {
+    void testInvalidInputs() {
 
-        List<GoodsBogie> bogies = new ArrayList<>();
-        bogies.add(new GoodsBogie("Cylindrical", "Grain")); // invalid
+        String trainId = "TRN-12";
+        String cargoCode = "PET-A1";
 
-        boolean result = bogies.stream()
-                .allMatch(b ->
-                        !b.type.equals("Cylindrical") ||
-                                b.cargo.equals("Petroleum")
-                );
+        Pattern p1 = Pattern.compile("TRN-\\d{4}");
+        Pattern p2 = Pattern.compile("PET-[A-Z]{2}");
 
-        assertFalse(result);
+        assertFalse(p1.matcher(trainId).matches());
+        assertFalse(p2.matcher(cargoCode).matches());
     }
 }
