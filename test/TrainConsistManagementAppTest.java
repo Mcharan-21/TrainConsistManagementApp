@@ -17,4 +17,22 @@ public class TrainConsistManagementAppTest {
         assertEquals(1, result.size());
         assertEquals("Sleeper", result.get(0).name);
     }
+
+    @Test
+    void testGroupBogiesByType() {
+
+        List<Bogie> bogies = new ArrayList<>();
+        bogies.add(new Bogie("Sleeper", 72));
+        bogies.add(new Bogie("Sleeper", 65));
+        bogies.add(new Bogie("AC Chair", 60));
+
+        Map<String, List<Bogie>> result =
+                TrainConsistManagementApp.groupBogiesByType(bogies);
+
+        assertTrue(result.containsKey("Sleeper"));
+        assertTrue(result.containsKey("AC Chair"));
+
+        assertEquals(2, result.get("Sleeper").size());
+        assertEquals(1, result.get("AC Chair").size());
+    }
 }
